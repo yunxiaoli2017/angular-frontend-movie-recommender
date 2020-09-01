@@ -1,0 +1,120 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none;">
+    <symbol id="star"><g transform="scale(0.03125 0.03125)"><path d="M896 384l-313.5-40.781-134.5-279.219-134.531 279.219-313.469 40.781 230.469 208.875-59.469 303.063 277-148.812 277.062 148.812-59.562-303.063 230.5-208.875z" /></g></symbol>
+    <symbol viewBox="0 0 18 18" id="no_rating"><g transform="scale(0.017578125 0.017578125)"><path d="M512 56.889c-251.362 0-455.111 203.749-455.111 455.111s203.749 455.111 455.111 455.111 455.111-203.749 455.111-455.111-203.749-455.111-455.111-455.111zM170.667 512c0-73.639 23.666-141.694 63.472-197.527l475.388 475.388c-55.833 39.806-123.888 63.472-197.527 63.472-188.222 0-341.333-153.111-341.333-341.333zM789.861 709.527l-475.388-475.388c55.833-39.806 123.888-63.472 197.527-63.472 188.222 0 341.333 153.111 341.333 341.333 0 73.639-23.666 141.694-63.472 197.527z" /></g></symbol>
+</svg>
+<div class="container">
+
+    <header class="jumbotron pb-3">
+        <div class="container">
+            <h1>Welcome to <span>Movie Recommender!</span></h1>
+            <p>Movies picked for you are just a few clicks away!</p>
+            <p>Rate as many as you'd like, and submit to get recommendations.</p>
+            <hr>
+            <form (ngSubmit)="regenerateMovies()">
+                <div class="input-group mb-3">
+                <div class="container px-0 w-100">
+                    <p class="w-75">Unfamiliar? Choose how many movies to re-generate</p>
+                </div>
+                <input class="form-control col-3 col-lg-1" id="numMovies" type="number" [formControl]="regenerateForm" value="{{movies?.length}}" min="1" step="1" max="100">
+                <div class="input-group-append">
+                    <button class="btn btn-md btn-primary" type="submit">Show repicked results</button>
+                </div>			
+                </div>
+            </form>
+            <p>
+            <a href="/" class="btn btn-md btn-secondary go-back">Back to landing page</a>
+            </p>
+        </div>
+    </header>
+    
+    <div *ngIf="noRatingError; else elseBlock">
+        <span>At least one rating has to be submitted.</span>
+        <a class="btn btn-outline-primary btn-md d-block" href="/rate">Back to rating page</a>
+    
+    </div>
+    <ng-template #elseBlock>
+    <form *ngIf="movies" [formGroup]="formGroup" (ngSubmit)="onFormSubmit()">
+        <div align="right">
+            <input type="submit" value="Submit Ratings" class="btn btn-md btn-success submit">
+        </div>
+        <div class="row equal">
+            <div formArrayName="ratingFormArray" *ngFor="let form of formGroup.get('ratingFormArray').controls; let i = index" class="col-sm-6 col-md-4 col-lg-3 pb-5 pt-0 pl-0 pr-0">
+                <div class="card h-100 mx-3">
+                    <img class="card-img-top p-0 h-70 poster" src="{{movies[i].posterUrl}}" alt="Poster for {{movies[i].title}}">
+                    
+                    <div class="card-body">
+                        <div class="h-20 title">
+                            <h5 class="card-title h-100">{{movies[i].title}}</h5>
+                        </div>
+                        <div class="h-20 genres">
+                            <p class="card-text h-100">{{movies[i].genres}}</p>
+                        </div>
+                        <hr>
+                        <div class="rating">
+                        <div class="inner-rating">
+                        <div [formGroupName]="i" class="r-radios h-10">
+                            <input type="text" value="{{movies[i].id}}">
+                            
+                            <input type="radio" formControlName="rating" id="{{movies[i].id}} r_input_0" [value]="0" [checked]="true">
+                            <label for="{{movies[i].id}} r_input_0" class="r-radio r-radio--none">
+                                <svg aria-hidden="true" focusable="false">
+                                    <use xlink:href="#no_rating"/>
+                                </svg>
+                                <span role="presentation">No rating</span>
+                            </label>
+                            
+                            <input type="radio" formControlName="rating" id="{{movies[i].id}} r_input_1" value="1">
+                            <label for="{{movies[i].id}} r_input_1" class="r-radio">
+                                <svg aria-hidden="true" focusable="false">
+                                    <use xlink:href="#star"/>
+                                </svg>
+                                <span role="presentation">1 Star</span>
+                            </label>
+        
+                            <input type="radio" formControlName="rating" id="{{movies[i].id}} r_input_2" value="2">
+                            <label for="{{movies[i].id}} r_input_2" class="r-radio">
+                                <svg aria-hidden="true" focusable="false">
+                                    <use xlink:href="#star"/>
+                                </svg>
+                                <span role="presentation">2 Stars</span>
+                            </label>
+        
+                            <input type="radio" formControlName="rating" id="{{movies[i].id}} r_input_3" value="3">
+                            <label for="{{movies[i].id}} r_input_3" class="r-radio">
+                                <svg aria-hidden="true" focusable="false">
+                                    <use xlink:href="#star"/>
+                                </svg>
+                                <span role="presentation">3 Stars</span>
+                            </label>
+        
+                            <input type="radio" formControlName="rating" id="{{movies[i].id}} r_input_4" value="4">
+                            <label for="{{movies[i].id}} r_input_4" class="r-radio">
+                                <svg aria-hidden="true" focusable="false">
+                                    <use xlink:href="#star"/>
+                                </svg>
+                                <span role="presentation">4 Stars</span>
+                            </label>
+        
+                            <input type="radio" formControlName="rating" id="{{movies[i].id}} r_input_5" th:field="*{ratings[__${itemStat.index}__].rating}" value="5">
+                            <label for="{{movies[i].id}} r_input_5" class="r-radio">
+                                <svg aria-hidden="true" focusable="false">
+                                    <use xlink:href="#star"/>
+                                </svg>
+                                <span role="presentation">5 Stars</span>
+                            </label>
+                        </div>
+                        <p>
+                            <a href="{{movies[i].imdbUrl}}" class="btn btn-sm btn-info">More Info on IMDB</a>
+                        </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <input type="submit" value="Submit Ratings" class="btn btn-md btn-success submit d-block">
+            </div>
+        </div>
+    </form>
+    </ng-template>
+</div>

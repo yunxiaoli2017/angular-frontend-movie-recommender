@@ -1,0 +1,39 @@
+<div class="container">
+    <header class="jumbotron pb-3">
+        <div class="container">
+            <h1>IT'S MOVIE <span>TIME!</span></h1>
+            <p>View our top 20 movies picked for you.</p>
+            <!-- <p>
+            <a class="btn btn-primary btn-large" href="/rate">Want more? Load more!</a>
+            </p> -->
+            <hr>
+            <p>
+            <a class="btn btn-primary btn-md mt-3" href="/rate">Back to rating page</a>
+            </p>
+            <p>
+            <a href="/" class="btn btn-md btn-secondary go-back">Back to landing page</a>
+            </p>
+        </div>
+    </header>
+    
+        <div class="row equal">
+            <div *ngFor="let movie of movies; let i = index" class="col-sm-6 col-md-4 col-lg-3 pb-5 pt-0 pl-0 pr-0">
+                <div class="card h-100 mx-3">
+                    <img class="card-img-top p-0 h-70 poster" src="{{movies[i].posterUrl}}" alt="Poster for {{movies[i].title}}">
+                    
+                    <div class="card-body">
+                        <div class="h-20 title">
+                            <h5 class="card-title h-100">{{movies[i].title}}</h5>
+                        </div>
+                        <div class="h-20 genres">
+                            <p class="card-text h-100">{{movies[i].genres}}</p>
+                        </div>
+                        <hr>
+                        <p>
+                            <a href="{{movies[i].imdbUrl}}" class="btn btn-sm btn-info">More Info on IMDB</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
